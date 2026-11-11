@@ -41,7 +41,7 @@ Organizes tokens into an Abstract Syntax Tree (AST) following our custom grammar
 
 Checks for type mismatches, undeclared variables, and duplicate declarations using a symbol table.
 
-### Phase 4: Code Optimization
+### Phase 4: Code Generation and Execution
 
 Generates pseudo-instructions and runs them.
 
