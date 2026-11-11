@@ -4,7 +4,9 @@ Our final group project for CSAL102: Automata and Formal Langauges.
 
 ## Programming Language
 
-[Draft 1] is a simple, statically-typed, and imperative toy language we designed to demonstrate the core phases of a compiler from source code to execution.
+[Draft 1] is a simple, statically-typed, imperative, and semicolon-terminated toy language we designed to demonstrate the core phases of a compiler from source code to execution.
+
+This draws inspiration from Python for general simplicity and Java for brace scoping, static typing and semicolon strictness.
 
 ```
 // Declaration
@@ -33,6 +35,12 @@ Our compiler development is split into steps handled across the team:
 
 Breaks down the raw source code into tokens using regex.
 
+**Current limitations**
+
+- No decimal or floating-point support, only integers
+- No escape sequence and internal quotation marks support for strings
+- No comment support
+
 ### Phase 2: Syntax Analysis
 
 Organizes tokens into an Abstract Syntax Tree (AST) following our custom grammar rules.
@@ -45,11 +53,28 @@ Checks for type mismatches, undeclared variables, and duplicate declarations usi
 
 Generates pseudo-instructions and runs them.
 
+## Getting Started
+
+### Prerequisites
+
+- [Python](https://www.python.org/downloads/)
+- [uv](https://docs.astral.sh/uv/getting-started/installation/) (optional)
+
+### Run locally
+
+```bash
+# Clone the repository
+git clone https://github.com/neophiles/compiler.git
+
+# Run main
+uv run main.py # OR python main.py
+```
+
 ## Team
 
-| Name            | Phase            |
-| --------------- | ---------------- |
-| Neil Tagle      | Lexical Analysis |
-| Vincent Aguirre | ...              |
-| Kyla Dequito    | ...              |
-| Ace Gamitin     | ...              |
+| Name            | Phase                         |
+| --------------- | ----------------------------- |
+| Neil Tagle      | Lexical Analysis              |
+| Kyla Dequito    | Syntax Analysis               |
+| Ace Gamitin     | Semantic Analysis             |
+| Vincent Aguirre | Code Generation and Execution |
