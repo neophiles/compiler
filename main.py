@@ -1,4 +1,6 @@
 from compiler.lexical_analysis import lex
+from compiler.syntax_analysis import parse, SyntaxAnalysisError
+from compiler.ast_nodes import dump
 
 sample_source_codes = [
 
@@ -36,11 +38,15 @@ def main():
     print(f"Test {i+1}:", lex(sample_source_codes[i]), end="\n\n")
 
   # Phase 1: Lexical Analysis (uncomment this if next phase is done)
-  # tokens = lex(sample_source_codes[0])
-  # print("Tokens:", tokens)
+  tokens = lex(sample_source_codes[0])
+  print("Tokens:", tokens)
 
   # Phase 2: Syntax Analysis
-  ...
+  try:
+    ast = parse(tokens)
+    print("\nAST:\n" + dump(ast))
+  except SyntaxAnalysisError as e:
+    print("\n" + str(e))
 
   # Phase 3: Semantic Analysis
   ...
