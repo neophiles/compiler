@@ -43,7 +43,12 @@ Breaks down the raw source code into tokens using regex.
 
 ### Phase 2: Syntax Analysis
 
-Organizes tokens into an Abstract Syntax Tree (AST) following our custom grammar rules.
+Organizes tokens into an Abstract Syntax Tree (AST) using a Recursive Descent Parser following our custom LL(1) grammar rules.
+
+**Current limitations**
+- No loop control structures (e.g., `while`, `for`), only `if`/`else` branching
+- No relational (`==`, `<`, `>`) or logical (`&&`, `||`) operators; conditions rely solely on boolean variables
+- No custom function declarations or complex data structures (arrays, objects)
 
 ### Phase 3: Semantic Analysis
 
