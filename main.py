@@ -1,5 +1,6 @@
 from compiler.lexical_analysis import lex
 from compiler.syntax_analysis import parse, SyntaxAnalysisError
+from compiler.semantic_analysis import analyze, SemanticAnalysisError
 from compiler.ast_nodes import dump
 
 sample_source_codes = [
@@ -49,7 +50,14 @@ def main():
     print("\n" + str(e))
 
   # Phase 3: Semantic Analysis
-  ...
+  try:
+    analyze(ast)
+    print("\nSemantic analysis passed.")
+  except SemanticAnalysisError as e:
+    print()
+    for error in e.errors:
+      print(error)
+    return  # don't continue to code generation if the program is invalid
 
   # Phase 4: Code Generation and Execution
   ...
