@@ -55,8 +55,11 @@ def main():
     # Phase 3: Semantic Analysis
     try:
       analyzed_ast = analyze(ast)
+      print("\nSemantic analysis passed.")
     except SemanticAnalysisError as e:
-      print(f"\nSemantic Error: {e}\n")
+      print()
+      for error in e.errors:
+        print(error)
       continue
 
     # Phase 4: Code Generation and Execution
