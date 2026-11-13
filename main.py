@@ -35,31 +35,34 @@ sample_source_codes = [
 ]
 
 def main():
-  # testing lexical analysis
-  for i in range(len(sample_source_codes)):
-    print(f"Test {i+1}:", lex(sample_source_codes[i]), end="\n\n")
+  for i, code in enumerate(sample_source_codes, 1):
+    print("=" * 60)
+    print(f"RUNNING TEST {i}")
+    print("=" * 60)
 
-  # Phase 1: Lexical Analysis (uncomment this if next phase is done)
-  tokens = lex(sample_source_codes[0])
-  print("Tokens:", tokens)
+    # Phase 1: Lexical Analysis
+    tokens = lex(code)
+    print("Tokens:", tokens)
 
-  # Phase 2: Syntax Analysis
-  try:
-    ast = parse(tokens)
-    print("\nAST:\n" + dump(ast))
-  except SyntaxAnalysisError as e:
-    print("\n" + str(e))
+    # Phase 2: Syntax Analysis
+    try:
+      ast = parse(tokens)
+      print("\nAST:\n" + dump(ast))
+    except SyntaxAnalysisError as e:
+      print(f"\nSyntax Error: {e}\n")
+      continue
 
-  # Phase 3: Semantic Analysis
-  try:
-    analyzed_ast = analyze(ast)
-  except SemanticAnalysisError as e:
-    print("\n" + str(e))
-    return
+    # Phase 3: Semantic Analysis
+    try:
+      analyzed_ast = analyze(ast)
+    except SemanticAnalysisError as e:
+      print(f"\nSemantic Error: {e}\n")
+      continue
 
-  # Phase 4: Code Generation and Execution
-  print("\nOutput:")
-  generate_code(analyzed_ast)
+    # Phase 4: Code Generation and Execution
+    print("\nOutput:")
+    generate_code(analyzed_ast)
+    print()
 
 if __name__ == "__main__":
   main()
