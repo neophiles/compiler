@@ -29,6 +29,19 @@ def is_num(val):
   return False
 
 
+def is_var(s):
+  if not s or not isinstance(s, str):
+    return False
+  
+  if is_num(s) or s in ("True", "False"):
+    return False
+  
+  if s.startswith('"') and s.endswith('"'):
+    return False
+  
+  return True
+
+
 # generates intermediate code (three-address code)
 def generate_tac(ast):
   instructions = []
@@ -150,6 +163,8 @@ def optimize(instructions):
           instr = ("MOV", "0", None, res); changed = True
         elif is_num(a2) and int(a2) == 1: instr = ("MOV", a1, None, res); changed = True
         elif is_num(a1) and int(a1) == 1: instr = ("MOV", a2, None, res); changed = True
+      elif op == "DIV":
+        if is_num(a2) and int(a2) == 1: instr = ("MOV", a1, None, res); changed = True
 
       new_instrs.append(instr)
 
@@ -165,14 +180,14 @@ def optimize(instructions):
       op, a1, a2, res = instr
       if op in ("PRINT", "LABEL", "JUMP", "JUMP_IF_FALSE"):
         dce_instrs.append(instr)
-        if a1 and not is_num(a1) and not a1.startswith('"'): live.add(a1)
-        if a2 and not is_num(a2) and not a2.startswith('"'): live.add(a2)
+        if is_var(a1): live.add(a1)
+        if is_var(a2): live.add(a2)
       elif res:
         if res in live:
           dce_instrs.append(instr)
           live.remove(res)
-          if a1 and not is_num(a1) and not a1.startswith('"'): live.add(a1)
-          if a2 and not is_num(a2) and not a2.startswith('"'): live.add(a2)
+          if is_var(a1): live.add(a1)
+          if is_var(a2): live.add(a2)
         else:
           changed = True
       else:

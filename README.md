@@ -61,11 +61,19 @@ Validates the Abstract Syntax Tree (AST) using a scope-aware symbol table and st
 - **Division by Zero:** Statically detects and blocks division by a literal `0`.
 - **Batch Error Reporting:** Collects all semantic errors in the program and reports them at once via `SemanticAnalysisError`, preventing a single typo from causing a cascade of misleading follow-up errors.
 
-Checks for type mismatches, undeclared variables, and duplicate declarations using a symbol table.
-
 ### Phase 4: Code Generation and Execution
 
-Generates pseudo-instructions and runs them.
+Translates the annotated AST into linear Three-Address Code (TAC) pseudo-instructions, applies compiler optimizations, and executes them in an internal Virtual Machine.
+
+**Features**
+- **Three-Address Code (TAC):** Converts AST expressions into linearized 4-tuple instructions (`(op, arg1, arg2, result)`) with sequential temporary register allocation (`t1`, `t2`, ...).
+- **Scope-Safe Variable Resolution:** Consumes the semantic analyzer's unique symbol annotations (`node.symbol.unique_name`), allowing shadowed variables across nested blocks to execute without collision.
+- **Code Optimization:**
+  - *Constant Folding:* Pre-evaluates constant arithmetic at compile time (e.g., `5 * 2 -> 10`).
+  - *Constant Propagation:* Replaces variables with their known constant values in downstream instructions.
+  - *Algebraic Simplification:* Eliminates identity and zero-product operations (`x + 0 -> x`, `x * 1 -> x`, `x * 0 -> 0`, `x / 1 -> x`).
+  - *Dead Code Elimination (DCE):* Backwards liveness analysis pass that removes unused variable assignments and dead temporaries.
+- **Virtual Machine Execution:** Sequentially executes instructions with simulated memory, supporting integer arithmetic, string operations, boolean conditions, and branching jumps (`JUMP`, `JUMP_IF_FALSE`, `LABEL`).
 
 ## Getting Started
 

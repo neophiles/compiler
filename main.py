@@ -1,5 +1,7 @@
 from compiler.lexical_analysis import lex
 from compiler.syntax_analysis import parse, SyntaxAnalysisError
+from compiler.semantic_analysis import analyze, SemanticAnalysisError
+from compiler.code_generation import generate_code
 from compiler.ast_nodes import dump
 
 sample_source_codes = [
@@ -49,10 +51,15 @@ def main():
     print("\n" + str(e))
 
   # Phase 3: Semantic Analysis
-  ...
+  try:
+    analyzed_ast = analyze(ast)
+  except SemanticAnalysisError as e:
+    print("\n" + str(e))
+    return
 
   # Phase 4: Code Generation and Execution
-  ...
+  print("\nOutput:")
+  generate_code(analyzed_ast)
 
 if __name__ == "__main__":
   main()
